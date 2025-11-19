@@ -1,0 +1,100 @@
+/* Task 3: Media Queries Avanzadas (6 minutos)
+Media queries permiten crear diseños responsivos que se adaptan a diferentes dispositivos y condiciones.
+
+Media Queries Básicos */
+/* Dispositivos móviles */
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+}
+
+/* Tablets */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    max-width: 800px;
+  }
+}
+
+/* Escritorio */
+@media screen and (min-width: 1025px) {
+  .container {
+    max-width: 1200px;
+  }
+}
+
+
+/* Características de Media Queries */
+
+/* Orientación */
+@media (orientation: portrait) {
+  .contenido {
+    flex-direction: column;
+  }
+}
+
+@media (orientation: landscape) {
+  .contenido {
+    flex-direction: row;
+  }
+}
+
+/* Resolución */
+@media (min-resolution: 2dppx) {
+  .imagen {
+    background-image: url('imagen-alta-resolucion.jpg');
+  }
+}
+
+/* Tipo de puntero */
+@media (pointer: coarse) {
+  /* Touch devices */
+  button {
+    min-height: 44px; /* tamaño mínimo para touch */
+  }
+}
+
+@media (pointer: fine) {
+  /* Mouse devices */
+  button {
+    min-height: auto;
+  }
+}
+
+/* Prefers color scheme */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #1a1a1a;
+    color: white;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    background: white;
+    color: #1a1a1a;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Container Queries (Moderno) */
+/* Container queries - aún experimental pero futuro estándar */
+@container (min-width: 400px) {
+  .card {
+    display: flex;
+  }
+}
+
+/* Para usar container queries */
+.card-container {
+  container-type: inline-size;
+}
+
