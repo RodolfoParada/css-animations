@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galería Animada con CSS Grid</title>
+  <style>
+    :root {
+      --color-primario: #3498db;
+      --color-secundario: #e74c3c;
+      --color-acento: #f39c12;
+      --color-fondo: #f8f9fa;
+      --color-texto: #2c3e50;
+      --sombra: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --borde-radius: 8px;
+      --transicion: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--color-fondo);
+      color: var(--color-texto);
+      line-height: 1.6;
+    }
+
+    /* Header animado */
+    header {
+      background: linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      animation: slideDown 1s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      animation: fadeInUp 1s ease-out 0.3s both;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      animation: fadeIn 1s ease-out 0.6s both;
+    }
+
+    /* Controles de filtro */
+    .controles {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      padding: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .filtro-btn {
+      background: white;
+      border: 2px solid var(--color-primario);
+      color: var(--color-primario);
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--borde-radius);
+      cursor: pointer;
+      font-weight: 500;
+      transition: var(--transicion);
+    }
+
+    .filtro-btn:hover {
+      background: var(--color-primario);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: var(--sombra);
+    }
+
+    .filtro-btn.active {
+      background: var(--color-primario);
+      color: white;
+    }
+
+    /* Galería con CSS Grid */
+    .galeria {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 0 2rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .imagen-item {
+      background: white;
+      border-radius: var(--borde-radius);
+      overflow: hidden;
+      box-shadow: var(--sombra);
+      transition: var(--transicion);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .imagen-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .imagen-item img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      transition: var(--transicion);
+    }
+
+    .imagen-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .contenido-imagen {
+      padding: 1.5rem;
+    }
+
+    .titulo-imagen {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: var(--color-texto);
+    }
+
+    .categoria {
+      display: inline-block;
+      background: var(--color-acento);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Estados de filtro */
+    .imagen-item.oculto {
+      opacity: 0;
+      transform: scale(0.8);
+      pointer-events: none;
+    }
+
+    /* Modal para imagen ampliada */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .modal.activo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-contenido {
+      max-width: 90%;
+      max-height: 90%;
+      position: relative;
+      animation: zoomIn 0.3s ease-out;
+    }
+
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.7);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .modal-imagen {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: var(--borde-radius);
+    }
+
+    .cerrar-modal {
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      background: var(--color-secundario);
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.5rem;
+      transition: var(--transicion);
+    }
+
+    .cerrar-modal:hover {
+      background: darken(var(--color-secundario), 10%);
+      transform: rotate(90deg);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .galeria {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        padding: 0 1rem 2rem;
+        gap: 1rem;
+      }
+
+      .controles {
+        padding: 1rem;
+        gap: 0.5rem;
+      }
+
+      .filtro-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      header {
+        padding: 1.5rem 1rem;
+      }
+
+      header h1 {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .galeria {
+        grid-template-columns: 1fr;
+      }
+
+      .controles {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    /* Animaciones de entrada escalonadas */
+    .imagen-item:nth-child(1) { animation-delay: 0.1s; }
+    .imagen-item:nth-child(2) { animation-delay: 0.2s; }
+    .imagen-item:nth-child(3) { animation-delay: 0.3s; }
+    .imagen-item:nth-child(4) { animation-delay: 0.4s; }
+    .imagen-item:nth-child(5) { animation-delay: 0.5s; }
+    .imagen-item:nth-child(6) { animation-delay: 0.6s; }
+    .imagen-item:nth-child(7) { animation-delay: 0.7s; }
+    .imagen-item:nth-child(8) { animation-delay: 0.8s; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Galería de Imágenes</h1>
+    <p class="subtitle">Explora nuestra colección con animaciones fluidas</p>
+  </header>
+
+  <div class="controles">
+    <button class="filtro-btn active" data-filtro="todos">Todos</button>
+    <button class="filtro-btn" data-filtro="naturaleza">Naturaleza</button>
+    <button class="filtro-btn" data-filtro="ciudad">Ciudad</button>
+    <button class="filtro-btn" data-filtro="arte">Arte</button>
+  </div>
+
+  <div class="galeria">
+    <div class="imagen-item" data-categoria="naturaleza">
+      <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400" alt="Bosque">
+      <div class="contenido-imagen">
+        <h3 class="titulo-imagen">Bosque Misterioso</h3>
+        <span class="categoria">Naturaleza</span>
+      </div>
+    </div>
+
+    <div class="imagen-item" data-categoria="ciudad">
+      <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400" alt="Ciudad nocturna">
+      <div class="contenido-imagen">
+        <h3 class="titulo-imagen">Ciudad Nocturna</h3>
+        <span class="categoria">Ciudad</span>
+      </div>
+    </div>
+
+    <div class="imagen-item" data-categoria="arte">
+      <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400" alt="Arte abstracto">
+      <div class="contenido-imagen">
+        <h3 class="titulo-imagen">Arte Abstracto</h3>
+        <span class="categoria">Arte</span>
+      </div>
+    </div>
+
+    <div class="imagen-item" data-categoria="naturaleza">
+      <img src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=400" alt="Montañas">
+      <div class="contenido-imagen">
+        <h3 class="titulo-imagen">Picos Nevados</h3>
+        <span class="categoria">Naturaleza</span>
+      </div>
+    </div>
+
+    <div class="imagen-item" data-categoria="ciudad">
+      <img src="https://images.unsplash.com/photo-1514565131-fce0801e5785?w=400" alt="Rascacielos">
+      <div class="contenido-imagen">
+        <h3 class="titulo-imagen">Rascacielos</h3>
+        <span class="categoria">Ciudad</span>
+      </div>
+    </div>
+
+    <div class="imagen-item" data-categoria="arte">
+      <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400" alt="Pintura">
+      <div class="contenido-imagen">
+        <h3 class="titulo-imagen">Pintura Moderna</h3>
+        <span class="categoria">Arte</span>
+      </div>
+    </div>
+
+    <div class="imagen-item" data-categoria="naturaleza">
+      <img src="https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=400" alt="Playa">
+      <div class="contenido-imagen">
+        <h3 class="titulo-imagen">Playa Tropical</h3>
+        <span class="categoria">Naturaleza</span>
+      </div>
+    </div>
+
+    <div class="imagen-item" data-categoria="ciudad">
+      <img src="https://images.unsplash.com/photo-1444723121867-7a241cacace9?w=400" alt="Puente">
+      <div class="contenido-imagen">
+        <h3 class="titulo-imagen">Puente Urbano</h3>
+        <span class="categoria">Ciudad</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para imagen ampliada -->
+  <div class="modal" id="modal">
+    <div class="modal-contenido">
+      <button class="cerrar-modal" id="cerrar-modal">&times;</button>
+      <img class="modal-imagen" id="modal-imagen" src="" alt="">
+    </div>
+  </div>
+
+  <script>
+    // Sistema de filtrado
+    const botonesFiltro = document.querySelectorAll('.filtro-btn');
+    const imagenes = document.querySelectorAll('.imagen-item');
+
+    botonesFiltro.forEach(boton => {
+      boton.addEventListener('click', () => {
+        // Remover clase active de todos los botones
+        botonesFiltro.forEach(btn => btn.classList.remove('active'));
+        // Agregar clase active al botón clickeado
+        boton.classList.add('active');
+
+        const filtro = boton.dataset.filtro;
+
+        imagenes.forEach(imagen => {
+          if (filtro === 'todos' || imagen.dataset.categoria === filtro) {
+            imagen.classList.remove('oculto');
+          } else {
+            imagen.classList.add('oculto');
+          }
+        });
+      });
+    });
+
+    // Sistema de modal
+    const modal = document.getElementById('modal');
+    const modalImagen = document.getElementById('modal-imagen');
+    const cerrarModal = document.getElementById('cerrar-modal');
+
+    imagenes.forEach(imagen => {
+      imagen.addEventListener('click', () => {
+        const imgSrc = imagen.querySelector('img').src;
+        modalImagen.src = imgSrc.replace('w=400', 'w=800'); // Versión más grande
+        modal.classList.add('activo');
+      });
+    });
+
+    cerrarModal.addEventListener('click', () => {
+      modal.classList.remove('activo');
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('activo');
+      }
+    });
+
+    // Cerrar modal con tecla Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('activo')) {
+        modal.classList.remove('activo');
+      }
+    });
+  </script>
+</body>
+</html>
