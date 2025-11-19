@@ -1,0 +1,90 @@
+/* Task 2: Transiciones y Animaciones CSS (10 minutos)
+Las transiciones y animaciones permiten crear interfaces dinámicas y atractivas.
+
+Transiciones (Transitions) */
+
+/* Transición básica */
+.boton {
+  background-color: blue;
+  transition: background-color 0.3s ease;
+}
+
+.boton:hover {
+  background-color: red; /* cambia suavemente */
+}
+
+/* Múltiples propiedades */
+.elemento {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  /* o específicamente */
+  transition: transform 0.3s ease,
+              opacity 0.2s ease-in,
+              background-color 0.5s ease-out;
+}
+
+/* Propiedades de transition */
+.transicion {
+  transition-property: transform, opacity; /* qué animar */
+  transition-duration: 0.3s, 0.5s; /* duración */
+  transition-timing-function: ease, cubic-bezier(0.4, 0, 0.2, 1); /* curva */
+  transition-delay: 0s, 0.1s; /* retraso */
+}
+
+/* Timing functions comunes */
+.linear { transition-timing-function: linear; } /* constante */
+.ease { transition-timing-function: ease; } /* rápido al inicio, lento al final */
+.ease-in { transition-timing-function: ease-in; } /* lento al inicio */
+.ease-out { transition-timing-function: ease-out; } /* lento al final */
+.ease-in-out { transition-timing-function: ease-in-out; } /* lento inicio y fin */
+
+/* Cubic-bezier personalizado */
+.custom {
+  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+
+/* Animaciones (Animations) */
+/* Definir animación */
+@keyframes slideIn {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(-50%);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Aplicar animación */
+.elemento-animado {
+  animation: slideIn 1s ease-out;
+}
+
+/* Propiedades de animation */
+.animacion-compleja {
+  animation-name: slideIn;
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  animation-delay: 0.5s;
+  animation-iteration-count: infinite; /* o número específico */
+  animation-direction: alternate; /* normal, reverse, alternate */
+  animation-fill-mode: forwards; /* mantiene estado final */
+  animation-play-state: running; /* running, paused */
+}
+
+/* Shorthand */
+.elemento {
+  animation: slideIn 1s ease-out 0.5s infinite alternate forwards;
+}
+
+/* Múltiples animaciones */
+.multiple {
+  animation: slideIn 1s ease-out,
+             fadeIn 0.5s ease-in 0.5s,
+             bounce 0.3s ease-in-out 1.5s;
+}
