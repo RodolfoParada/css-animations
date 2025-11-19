@@ -1,0 +1,61 @@
+/* Task 4: CSS Custom Properties (Variables) (4 minutos)
+Las variables CSS permiten reutilizar valores y crear temas dinámicos.
+
+Definición y Uso Básico */
+
+
+
+/* Definir variables */
+:root {
+  --color-primario: #3498db;
+  --color-secundario: #2ecc71;
+  --espaciado: 1rem;
+  --fuente-principal: 'Arial', sans-serif;
+  --borde-radius: 4px;
+}
+
+/* Usar variables */
+.boton {
+  background-color: var(--color-primario);
+  padding: var(--espaciado);
+  border-radius: var(--borde-radius);
+  font-family: var(--fuente-principal);
+}
+
+/* Variables con fallback */
+.elemento {
+  color: var(--color-texto, #333); /* usa #333 si --color-texto no existe */
+}
+
+
+/* Variables Dinámicas y Temas */
+
+/* Tema claro */
+:root {
+  --bg-color: white;
+  --text-color: #333;
+  --border-color: #ddd;
+}
+
+/* Tema oscuro */
+[data-theme="dark"] {
+  --bg-color: #1a1a1a;
+  --text-color: white;
+  --border-color: #444;
+}
+
+/* Componente que usa variables */
+.card {
+  background: var(--bg-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+/* Variables calculadas */
+:root {
+  --base-font-size: 16px;
+  --heading-scale: 1.25;
+  
+  --h1-size: calc(var(--base-font-size) * var(--heading-scale) * var(--heading-scale));
+  --h2-size: calc(var(--base-font-size) * var(--heading-scale));
+}
