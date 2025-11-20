@@ -384,11 +384,15 @@
         const filtro = boton.dataset.filtro;
 
         imagenes.forEach(imagen => {
-          if (filtro === 'todos' || imagen.dataset.categoria === filtro) {
-            imagen.classList.remove('oculto');
-          } else {
-            imagen.classList.add('oculto');
-          }
+         if (filtro === 'todos' || imagen.dataset.categoria === filtro) {
+           imagen.classList.remove('oculto');
+          // Forzar visibilidad
+          imagen.style.opacity = '1';
+          imagen.style.transform = 'translateY(0)';
+         } else {
+          imagen.classList.add('oculto');
+          imagen.style.opacity = '0';
+         }
         });
       });
     });
@@ -399,12 +403,16 @@
     const cerrarModal = document.getElementById('cerrar-modal');
 
     imagenes.forEach(imagen => {
-      imagen.addEventListener('click', () => {
-        const imgSrc = imagen.querySelector('img').src;
-        modalImagen.src = imgSrc.replace('w=400', 'w=800'); // Versión más grande
-        modal.classList.add('activo');
-      });
-    });
+    imagen.addEventListener('click', () => {
+    let imgSrc = imagen.querySelector('img').src;
+    // Reemplazar cualquier w=... por w=800
+    imgSrc = imgSrc.replace(/w=\d+/,'w=800');
+    modalImagen.src = imgSrc;
+    modalImagen.alt = imagen.querySelector('img').alt; // también actualizar alt
+    modal.classList.add('activo');
+  });
+});
+
 
     cerrarModal.addEventListener('click', () => {
       modal.classList.remove('activo');
