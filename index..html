@@ -1,0 +1,112 @@
+<!-- Ejercicio: Crea un dashboard administrativo responsivo que incluya: 
+ -sidebar navegable con animaciones.
+ -área principal con cards en grid que se adaptan al tamaño.
+ -gráficos simulados con CSS.
+ -un header con menú hamburguesa. 
+ -Implementa un tema oscuro/claro usando CSS custom properties 
+ -agrega micro-interacciones (hover effects, loading states, etc.). -->
+
+ <!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <title>Dashboard Administrativo Pro</title>
+    <style>
+
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="brand">⚡ AdminPro</div>
+        <ul class="nav-links">
+            <li class="nav-item"><a href="#" class="active">Dashboard</a></li>
+            <li class="nav-item"><a href="#">Analíticas</a></li>
+            <li class="nav-item"><a href="#">Usuarios</a></li>
+            <li class="nav-item"><a href="#">Configuración</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <header>
+            <button class="hamburger" id="menu-btn">☰</button>
+            <h2>Resumen General</h2>
+            <button class="theme-toggle" id="theme-btn">🌙 Modo Oscuro</button>
+        </header>
+
+        <div class="dashboard-container">
+            <section class="stats-grid">
+                <article class="card">
+                    <h3>Usuarios Totales</h3>
+                    <div class="value">12,543</div>
+                    <div class="loading-skeleton" style="width: 60%"></div>
+                </article>
+                <article class="card">
+                    <h3>Ingresos</h3>
+                    <div class="value">$45,200</div>
+                    <div class="loading-skeleton" style="width: 40%"></div>
+                </article>
+                <article class="card">
+                    <h3>Visitas Hoy</h3>
+                    <div class="value">3,105</div>
+                    <div class="loading-skeleton" style="width: 50%"></div>
+                </article>
+                <article class="card">
+                    <h3>Tasa de Rebote</h3>
+                    <div class="value">12%</div>
+                    <div class="loading-skeleton" style="width: 30%"></div>
+                </article>
+            </section>
+
+            <section class="charts-grid">
+                <article class="card">
+                    <h3>Rendimiento Mensual (CSS Puro)</h3>
+                    <div class="bar-chart">
+                        <div class="bar" style="height: 40%"></div>
+                        <div class="bar" style="height: 70%"></div>
+                        <div class="bar" style="height: 50%"></div>
+                        <div class="bar" style="height: 90%"></div>
+                        <div class="bar" style="height: 60%"></div>
+                    </div>
+                </article>
+                <article class="card">
+                    <h3>Distribución (Conic Gradient)</h3>
+                    <div class="donut-chart">
+                        <div class="donut-center">70%</div>
+                    </div>
+                </article>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // Micro-interacciones y Lógica
+        const themeBtn = document.getElementById('theme-btn');
+        const html = document.documentElement;
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.getElementById('sidebar');
+
+        // Toggle Tema
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+            themeBtn.textContent = newTheme === 'light' ? '🌙 Modo Oscuro' : '☀️ Modo Claro';
+        });
+
+        // Toggle Menú Hamburguesa
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // Cerrar sidebar al hacer click fuera (UX básico)
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !menuBtn.contains(e.target) && window.innerWidth <= 768) {
+                sidebar.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
